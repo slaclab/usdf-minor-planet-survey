@@ -1,0 +1,23 @@
+namespace: mpcorb-replica
+
+resources:
+- ns.yaml
+- cnpg-database.yaml
+- db-svc.yaml
+
+secretGenerator:
+- name: usdf-mpc-creds
+  options:
+    disableNameSuffixHash: true
+  files:
+  - etc/.secrets/username
+  - etc/.secrets/password
+
+configMapGenerator:
+- name: mpc-init-sql
+  options:
+    disableNameSuffixHash: true
+  files:
+  - sql/create_mpc_sbn146_all_tables_schemas.sql
+  - sql/create_mpc_sbn_obs_alterations_tables_schemas.sql
+  - sql/create_table_mpc_orbits.sql

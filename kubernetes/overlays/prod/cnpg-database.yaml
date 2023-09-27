@@ -1,0 +1,47 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: mpcorb
+  namespace: mpcorb-replica
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:14
+  enableSuperuserAccess: false
+  instances: 1
+
+  inheritedMetadata:
+    annotations:
+      prometheus.io/scrape: 'true'
+  
+  monitoring:
+    enablePodMonitor: true
+
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
+  
+  resources:
+    requests:
+      memory: 16Gi
+      cpu: 8
+    limits:
+      memory: 32Gi
+      cpu: 16
+
+  storage:
+    storageClass: wekafs--sdf-k8s01
+    size: 2000Gi
+
+  bootstrap:
+    initdb:
+      database: mpc_sbn
+      owner: rubin
+      secret:
+        name: usdf-mpc-creds
+      postInitApplicationSQLRefs:
+        configMapRefs:
+        - name: mpc-init-sql
+          key: create_mpc_sbn146_all_tables_schemas.sql 
+        - name: mpc-init-sql
+          key: create_mpc_sbn_obs_alterations_tables_schemas.sql
+        - name: mpc-init-sql
+          key: create_table_mpc_orbits.sql

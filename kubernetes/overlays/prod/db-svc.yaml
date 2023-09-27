@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    cnpg.io/cluster: mpcorb
+  annotations:
+    metallb.universe.tf/address-pool: sdf-services
+  name: cnpg-loadbalancer
+  namespace: mpcorb-replica
+spec:
+  allocateLoadBalancerNodePorts: true
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    postgresql: mpcorb
+  sessionAffinity: None
+  type: LoadBalancer
