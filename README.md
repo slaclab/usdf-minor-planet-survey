@@ -8,7 +8,11 @@ Requirements are [here](https://jira.lsstcorp.org/browse/DM-40702).  Documentati
 
 # Schema Updates
 
-To update schemas obtain the changes from SBN.  If a new script is shared replace the appropriate file and run `make run-apply`  The script is run on bootstrap so for changes after database is up apply the scripts via psql.
+To update schemas obtain the changes from SBN run the script file manally.  CNPG runs script as a one time bootstrap so that is why it must be manual.  Example below.
+
+`cat mpc_orbits_add_new_columns_and_comments.sql | k exec -it mpcorb-1 -n mpcorb-replica -- psql -d mpc_sbn -a -q`
+
+Also add the or edit the .sql file and update kustomize so if the database needs to be rebuilt in the future the changes get captured
 
 # Logical Replication Subscription
 
@@ -21,3 +25,5 @@ CREATE SUBSCRIPTION sbn146_rubin_usdf_other_tables_sub CONNECTION'host=musforti.
 
 CREATE SUBSCRIPTION sbn146_rubin_usdf_obs_table_sub CONNECTION'host=musforti.astro.umd.edu port=5432 dbname=mpc_sbn user=sbnmastrubin password=<update> PUBLICATION sbn146_obs_table_pub WITH(copy_data=true, enabled=true);
 ```
+
+To validate active subscription run `select * from pg_subscription`

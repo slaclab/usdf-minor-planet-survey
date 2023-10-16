@@ -21,3 +21,5 @@ configMapGenerator:
   - sql/create_mpc_sbn146_all_tables_schemas.sql
   - sql/create_mpc_sbn_obs_alterations_tables_schemas.sql
   - sql/create_table_mpc_orbits.sql
+  - sql/grants.sql
+  - sql/mpc_orbits_add_new_columns_and_comments.sql
