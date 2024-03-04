@@ -6,6 +6,8 @@ To access the kuberentes environment login [here](https://k8s.slac.stanford.edu/
 
 Requirements are [here](https://jira.lsstcorp.org/browse/DM-40702).  Documentation on the setup from SBN is [here](https://sbnwiki.astro.umd.edu/wiki/SBN_MPC_Wiki)  This [doc](https://www.enterprisedb.com/blog/current-state-major-postgresql-upgrades-cloudnativepg-kubernetes) was referenced for setup.
 
+The current state replication status dashboard is [here](https://sbnmpc.astro.umd.edu/MPC_database/postgres_dash.shtml).  This is used to validate replication status.
+
 # Schema Updates
 
 To update schemas obtain the changes from SBN run the script file manally.  CNPG runs script as a one time bootstrap so that is why it must be manual.  Example below.
