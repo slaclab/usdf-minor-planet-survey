@@ -28,4 +28,4 @@ CREATE SUBSCRIPTION sbn146_rubin_usdf_other_tables_sub CONNECTION'host=musforti.
 CREATE SUBSCRIPTION sbn146_rubin_usdf_obs_table_sub CONNECTION'host=musforti.astro.umd.edu port=5432 dbname=mpc_sbn user=sbnmastrubin password=<update> PUBLICATION sbn146_obs_table_pub WITH(copy_data=true, enabled=true);
 ```
 
-To validate active subscription run `select * from pg_subscription`
+To validate active subscription run `select * from pg_subscription;`

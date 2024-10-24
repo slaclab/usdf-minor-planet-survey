@@ -1,0 +1,14 @@
+namespace: mpc-sandbox-prod
+
+resources:
+  - ns.yaml
+  - cnpg-database.yaml
+  - db-svc.yaml
+
+secretGenerator:
+  - name: usdf-mpc-sandbox-creds
+    options:
+      disableNameSuffixHash: true
+    files:
+      - etc/.secrets/username
+      - etc/.secrets/password
