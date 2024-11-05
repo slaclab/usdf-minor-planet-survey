@@ -9,12 +9,14 @@ metadata:
   namespace: mpcorb-replica
 spec:
   loadBalancerSourceRanges:
-  - 34.19.55.28/32
+    - 34.19.55.28/32
+    - 34.28.185.156/32
+    - 35.225.165.2/32
   allocateLoadBalancerNodePorts: true
   externalTrafficPolicy: Cluster
   internalTrafficPolicy: Cluster
   ipFamilies:
-  - IPv4
+    - IPv4
   ports:
     - port: 5432
       protocol: TCP
