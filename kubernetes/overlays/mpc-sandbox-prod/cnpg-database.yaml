@@ -1,0 +1,39 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: mpc-sandbox-prod
+  namespace: mpc-sandbox-prod
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  enableSuperuserAccess: false
+  instances: 1
+
+  inheritedMetadata:
+    annotations:
+      prometheus.io/scrape: "true"
+
+  monitoring:
+    enablePodMonitor: false
+
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
+
+  resources:
+    requests:
+      memory: 8Gi
+      cpu: 4
+    limits:
+      memory: 16Gi
+      cpu: 8
+
+  storage:
+    storageClass: wekafs--sdf-k8s01
+    size: 100Gi
+
+  bootstrap:
+    initdb:
+      database: app
+      owner: rubin
+      secret:
+        name: usdf-mpc-sandbox-creds
