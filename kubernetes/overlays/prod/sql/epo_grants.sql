@@ -1,5 +1,7 @@
 CREATE USER epo with PASSWORD <replace with password from vault>;
 
+ALTER ROLE epo REPLICATION;
+
 GRANT SELECT ON public.current_identifications TO epo;
 GRANT SELECT ON public.mpc_orbits  TO epo;
 GRANT SELECT ON public.neocp_els TO epo;
