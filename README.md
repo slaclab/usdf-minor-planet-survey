@@ -29,3 +29,25 @@ CREATE SUBSCRIPTION sbn146_rubin_usdf_obs_table_sub CONNECTION'host=musforti.ast
 ```
 
 To validate active subscription run `select * from pg_subscription;`
+
+
+# MPC Sandbox
+
+Setup is detailed in https://rubinobs.atlassian.net/browse/DM-46972
+
+Publication name `mpc_lsst_sandbox_obs_ingest_pub`
+
+Hostname: `mpc-pipeline-dev-sandbox-cluster.cuee8irghiva.us-east-2.rds.amazonaws.com`
+
+To setup schema:
+
+'''
+cat obs_ingest.sql | k exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+cat orbit_table_scripts.sql | k exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+'''
+
+Below is subscription configuration with password removed.  Username and password is stored in Vault at vault kv get secret/rubin/usdf-minor-planet-survey/postgres-mpc-sandbox
+
+'''
+CREATE SUBSCRIPTION usdf_obs_sandbox CONNECTION 'host=mpc-pipeline-dev-sandbox-cluster.cuee8irghiva.us-east-2.rds.amazonaws.com port=5432 dbname=mpc_obs_sandbox user=mpc_lsst_user password=<removed>' PUBLICATION mpc_lsst_sandbox_obs_ingest_pub WITH (connect=true
+'''
