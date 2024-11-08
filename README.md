@@ -48,6 +48,4 @@ cat orbit_table_scripts.sql | k exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod 
 
 Below is subscription configuration with password removed.  Username and password is stored in Vault at vault kv get secret/rubin/usdf-minor-planet-survey/postgres-mpc-sandbox
 
-'''
-CREATE SUBSCRIPTION usdf_obs_sandbox CONNECTION 'host=mpc-pipeline-dev-sandbox-cluster.cuee8irghiva.us-east-2.rds.amazonaws.com port=5432 dbname=mpc_obs_sandbox user=mpc_lsst_user password=<removed>' PUBLICATION mpc_lsst_sandbox_obs_ingest_pub WITH (connect=true
-'''
+Apply subscriptions at sql/subscription.sql
