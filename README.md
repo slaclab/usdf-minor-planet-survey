@@ -42,10 +42,17 @@ Hostname: `mpc-pipeline-dev-sandbox-cluster.cuee8irghiva.us-east-2.rds.amazonaws
 To setup schema:
 
 '''
-cat obs_ingest.sql | k exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
-cat orbit_table_scripts.sql | k exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+cat obs_ingest.sql | kubectl exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+cat orbit_table_scripts.sql | kubectl exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+cat orbit_obs_data.sql | kubectl exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
 '''
 
 Below is subscription configuration with password removed.  Username and password is stored in Vault at vault kv get secret/rubin/usdf-minor-planet-survey/postgres-mpc-sandbox
 
 Apply subscriptions at sql/subscription.sql
+
+To refresh subscriptions after tables updates run.
+```
+ALTER SUBSCRIPTION usdf_obs_sandbox_sandbox REFRESH PUBLICATION;
+ALTER SUBSCRIPTION usdf_orbit_tables_sandbox REFRESH PUBLICATION;
+```
