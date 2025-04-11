@@ -35,24 +35,38 @@ To validate active subscription run `select * from pg_subscription;`
 
 Setup is detailed in https://rubinobs.atlassian.net/browse/DM-46972
 
-Publication name `mpc_lsst_sandbox_obs_ingest_pub`
-
-Hostname: `mpc-pipeline-dev-sandbox-cluster.cuee8irghiva.us-east-2.rds.amazonaws.com`
-
 To setup schema:
 
 '''
-cat obs_ingest.sql | kubectl exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
-cat orbit_table_scripts.sql | kubectl exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
-cat orbit_obs_data.sql | kubectl exec -it mpc-sandbox-prod-1 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+cat obs_ingest.sql | kubectl exec -it mpc-sandbox-prod-2 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+cat orbit_table_scripts.sql | kubectl exec -it mpc-sandbox-prod-2 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+cat obs_obit_data.sql | kubectl exec -it mpc-sandbox-prod-2 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+cat obs_sbn.sql | kubectl exec -it mpc-sandbox-prod-2 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+cat mpc_orbits.sql | kubectl exec -it mpc-sandbox-prod-2 -n mpc-sandbox-prod -- psql -d mpc_obs_sandbox
+
 '''
 
 Below is subscription configuration with password removed.  Username and password is stored in Vault at vault kv get secret/rubin/usdf-minor-planet-survey/postgres-mpc-sandbox
 
 Apply subscriptions at sql/subscription.sql
 
+To validate data is in subscriptions.
+```
+select count(*) from obs_ingest;
+select count(*) from obs_sbn;
+select count(*) from mpc_orbits;
+```
+
 To refresh subscriptions after tables updates run.
 ```
-ALTER SUBSCRIPTION usdf_obs_sandbox_sandbox REFRESH PUBLICATION;
-ALTER SUBSCRIPTION usdf_orbit_tables_sandbox REFRESH PUBLICATION;
+ALTER SUBSCRIPTION usdf_mpc_obs_ingest_sub REFRESH PUBLICATION;
+ALTER SUBSCRIPTION usdf_mpc_obs_sbn_sub REFRESH PUBLICATION;
+ALTER SUBSCRIPTION usdf_mpc_orbits_sub REFRESH PUBLICATION;
+```
+
+To drop subscriptions run the below commands.
+```
+DROP SUBSCRIPTION usdf_mpc_obs_ingest_sub;
+DROP SUBSCRIPTION usdf_mpc_obs_sbn_sub;
+DROP SUBSCRIPTION usdf_mpc_orbits_sub;
 ```

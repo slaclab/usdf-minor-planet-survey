@@ -1,23 +1,22 @@
 /*
- Navicat Premium Dump SQL
-
-
+ 
+ Source Server Type    : PostgreSQL
+ Source Server Version : 170004 (170004)
  Source Schema         : public
 
  Target Server Type    : PostgreSQL
- Target Server Version : 160004 (160004)
+ Target Server Version : 170004 (170004)
  File Encoding         : 65001
 
- Date: 01/11/2024 07:20:16
+ Date: 04/09/2025 08:17:45
 */
-
 
 -- ----------------------------
 -- Table structure for obs_ingest
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."obs_ingest";
 CREATE TABLE "public"."obs_ingest" (
-  "id" int8 NOT NULL ,
+  "id" int8 NOT NULL,
   "trksub" text COLLATE "pg_catalog"."default",
   "trkid" text COLLATE "pg_catalog"."default",
   "obsid" text COLLATE "pg_catalog"."default" NOT NULL,
@@ -109,29 +108,25 @@ CREATE TABLE "public"."obs_ingest" (
   "vel2" numeric,
   "vel3" numeric,
   "prectime_ades" int2,
-  "obssubid" text COLLATE "pg_catalog"."default"
+  "obssubid" text COLLATE "pg_catalog"."default",
+  "fltr" char(3) COLLATE "pg_catalog"."default"
 )
-WITH (fillfactor=100)
+WITH (fillfactor=90)
 ;
-ALTER TABLE "public"."obs_ingest" OWNER TO "postgres";
-COMMENT ON COLUMN "public"."obs_ingest"."vel1" IS 'A22 column';
-COMMENT ON COLUMN "public"."obs_ingest"."vel2" IS 'A22 column';
-COMMENT ON COLUMN "public"."obs_ingest"."vel3" IS 'A22 column';
-COMMENT ON COLUMN "public"."obs_ingest"."prectime_ades" IS 'Submitted onetime precision';
-COMMENT ON COLUMN "public"."obs_ingest"."obssubid" IS 'A22 column';
+
+DROP INDEX IF EXISTS "obs_ingest_obsid_idx";
+DROP INDEX IF EXISTS "obs_ingest_obstime_idx";
+DROP INDEX IF EXISTS "obs_ingest_permid_idx";
+DROP INDEX IF EXISTS "obs_ingest_provid_idx";
+DROP INDEX IF EXISTS "obs_ingest_submission_block_id_idx";
+DROP INDEX IF EXISTS "obs_ingest_trkid_idx";
+DROP INDEX IF EXISTS "obs_ingest_trkid_idx";
+DROP INDEX IF EXISTS "obs_ingest_updated_at_idx";
 
 -- ----------------------------
 -- Indexes structure for table obs_ingest
 -- ----------------------------
-CREATE INDEX "obs_ingest_group_id_idx" ON "public"."obs_ingest" USING btree (
-  "group_id" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
-);
-CREATE INDEX "obs_ingest_healpix_idx" ON "public"."obs_ingest" USING btree (
-  "healpix" "pg_catalog"."int8_ops" ASC NULLS LAST
-);
-CREATE INDEX "obs_ingest_obs80_bit_idx" ON "public"."obs_ingest" USING btree (
-  "obs80_bit" COLLATE "pg_catalog"."default" "pg_catalog"."bpchar_ops" ASC NULLS LAST
-);
+
 CREATE UNIQUE INDEX "obs_ingest_obsid_idx" ON "public"."obs_ingest" USING btree (
   "obsid" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
@@ -147,9 +142,6 @@ CREATE INDEX "obs_ingest_provid_idx" ON "public"."obs_ingest" USING btree (
 CREATE INDEX "obs_ingest_submission_block_id_idx" ON "public"."obs_ingest" USING btree (
   "submission_block_id" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
-CREATE INDEX "obs_ingest_submission_id_idx" ON "public"."obs_ingest" USING btree (
-  "submission_id" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
-);
 CREATE INDEX "obs_ingest_trkid_idx" ON "public"."obs_ingest" USING btree (
   "trkid" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
@@ -160,9 +152,7 @@ CREATE INDEX "obs_ingest_updated_at_idx" ON "public"."obs_ingest" USING btree (
   "updated_at" "pg_catalog"."timestamptz_ops" ASC NULLS LAST
 );
 
-
-
 -- ----------------------------
 -- Primary Key structure for table obs_ingest
 -- ----------------------------
-ALTER TABLE "public"."obs_ingest" ADD CONSTRAINT "obs_pkey1" PRIMARY KEY ("id");
+ALTER TABLE "public"."obs_ingest" ADD CONSTRAINT "obs_ingest_pkey1" PRIMARY KEY ("id");
